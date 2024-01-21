@@ -1,0 +1,19 @@
+version: "3"
+
+services:
+  book_daemon:
+    build: ./book_daemon
+    depends_on:
+      - growbox_database
+    ports:
+      - "9000:8080"
+
+  growbox_database:
+    platform: linux/x86_64
+    image: mysql:5.7
+    expose:
+      - 3306
+    environment:
+      MYSQL_ROOT_PASSWORD: 'password'
+    volumes:
+      - ./growbox_database:/docker-entrypoint-initdb.d/:ro

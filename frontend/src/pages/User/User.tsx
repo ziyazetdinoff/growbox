@@ -7,16 +7,49 @@ import refresh from "../../icons/refresh_icon.png";
 import lamp from "../../icons/lamp_icon.png";
 
 import { Slider } from "@mui/material";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { format } from "date-fns"
+
+const GrowBoxBackendUrl = "http://growbox_daemon:8080/stats"
+
+interface GrowBoxStats {
+  temperature: number
+  humidity: number
+  acidity: number
+}
 
 export const User = () => {
   const [red, setRed] = useState(0);
   const [green, setGreen] = useState(0);
   const [blue, setBlue] = useState(0);
 
+  const [updatedTime, setUpdatedTime] = useState(Date.now())
   
-  const formattedTime = format(Date.now(), 'yyyy-MM-dd HH:mm:ss');
+  const [growBoxStats, setGrowBoxStats] = useState<GrowBoxStats | null>(null);
+  useEffect(() => {
+    const sleep = (ms: number) => {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    };
+
+    const fetchData = async () => {
+      try {
+        // const response = await fetch(GrowBoxBackendUrl);
+        // const jsonData = await response.json();
+        // setGrowBoxStats(jsonData);
+        await sleep(5000)
+        setGrowBoxStats(
+          {temperature: 25, humidity: 70, acidity: 80}
+        )
+        setUpdatedTime(Date.now())
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+  
+  const formattedTime = format(updatedTime, 'yyyy-MM-dd HH:mm:ss');
 
   const handleRedChange = (event: Event, newValue: number | number[]) => {
      setRed(newValue as number);
@@ -66,7 +99,7 @@ export const User = () => {
             <Box sx={{ display: "flex", flexDirection: "column", gap: "20px" }}>
               <Typography>Температура</Typography>
               <Typography variant="h6" sx={{ textAlign: "end" }}>
-                25℃
+              {growBoxStats ? growBoxStats.temperature : "Loading"}℃
               </Typography>
             </Box>
           </Box>
@@ -93,7 +126,7 @@ export const User = () => {
             <Box sx={{ display: "flex", flexDirection: "column", gap: "20px" }}>
               <Typography>Влажность</Typography>
               <Typography variant="h6" sx={{ textAlign: "end" }}>
-                77%
+              {growBoxStats ? growBoxStats.humidity : "Loading"}%
               </Typography>
             </Box>
           </Box>
@@ -118,7 +151,7 @@ export const User = () => {
             <Box sx={{ display: "flex", flexDirection: "column", gap: "20px" }}>
               <Typography>Кислотность</Typography>
               <Typography variant="h6" sx={{ textAlign: "end" }}>
-                90%
+              {growBoxStats ? growBoxStats.acidity : "Loading"}%
               </Typography>
             </Box>
           </Box>
