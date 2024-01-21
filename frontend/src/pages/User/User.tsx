@@ -10,12 +10,12 @@ import { Slider } from "@mui/material";
 import { useState, useEffect } from "react";
 import { format } from "date-fns"
 
-const GrowBoxBackendUrl = "http://growbox_daemon:8080/stats"
+const GrowBoxBackendUrl = "http://localhost:9000/stats"
 
 interface GrowBoxStats {
   temperature: number
   humidity: number
-  acidity: number
+  acid: number
 }
 
 export const User = () => {
@@ -31,7 +31,7 @@ export const User = () => {
       try {
         const response = await fetch(GrowBoxBackendUrl);
         const jsonData = await response.json();
-        setGrowBoxStats(jsonData);
+        setGrowBoxStats(jsonData as GrowBoxStats);
         setUpdatedTime(Date.now())
       } catch (error) {
         console.error('Error:', error);
@@ -143,7 +143,7 @@ export const User = () => {
             <Box sx={{ display: "flex", flexDirection: "column", gap: "20px" }}>
               <Typography>Кислотность</Typography>
               <Typography variant="h6" sx={{ textAlign: "end" }}>
-              {growBoxStats ? growBoxStats.acidity : "Loading"}%
+              {growBoxStats ? growBoxStats.acid : "Loading"}%
               </Typography>
             </Box>
           </Box>

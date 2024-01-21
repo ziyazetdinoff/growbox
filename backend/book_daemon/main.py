@@ -1,9 +1,10 @@
 from flask import Flask, render_template, request, redirect
+from flask_cors import CORS
 import pymysql
 import json
 
 app = Flask(__name__)
-
+CORS(app)
 
 def get_stats():
     connection = pymysql.connect(
