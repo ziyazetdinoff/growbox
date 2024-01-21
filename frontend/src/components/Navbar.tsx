@@ -39,26 +39,26 @@ export const Navbar = ({logoutFunction, role}: any) => {
           Главная
         </Link>
         )}
-        {role === null && (<Link sx={{ textDecoration: "none" }} href="/panel">
-          Панель
-        </Link>
-        )}
-        {role === Roles.ADMIN && (
-          <Link sx={{ textDecoration: "none" }} href="/users">
-            Заявки
-          </Link>
-        )}
-        {role === Roles.USER && (
+        {role === null && (
           <Link sx={{ textDecoration: "none" }} href="/dashboard">
             Дашборд
           </Link>
         )}
-        {role === Roles.USER && (
+        {role === null && (<Link sx={{ textDecoration: "none" }} href="/panel">
+          Панель
+        </Link>
+        )}
+        {role === null && (
+          <Link sx={{ textDecoration: "none" }} href="/users">
+            Заявки
+          </Link>
+        )}
+        {role === null && (
           <Link sx={{ textDecoration: "none" }} href="/prediction">
             Прогресс
           </Link>
         )}
-        {(role && (
+        {(role === null && (
           <Link
             sx={{ textDecoration: "none", cursor: "pointer" }}
             onClick={logoutFunction}
