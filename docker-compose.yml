@@ -1,12 +1,12 @@
 version: "3"
 
 services:
-  book_daemon:
-    build: ./book_daemon
+  growbox_daemon:
+    build: ./backend/book_daemon
     depends_on:
       - growbox_database
-    ports:
-      - "9000:8080"
+    expose:
+      - 8080
 
   growbox_database:
     platform: linux/x86_64
@@ -17,3 +17,9 @@ services:
       MYSQL_ROOT_PASSWORD: 'password'
     volumes:
       - ./growbox_database:/docker-entrypoint-initdb.d/:ro
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - 3000:3000
+  

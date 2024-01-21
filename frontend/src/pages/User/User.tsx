@@ -27,19 +27,11 @@ export const User = () => {
   
   const [growBoxStats, setGrowBoxStats] = useState<GrowBoxStats | null>(null);
   useEffect(() => {
-    const sleep = (ms: number) => {
-      return new Promise(resolve => setTimeout(resolve, ms));
-    };
-
     const fetchData = async () => {
       try {
-        // const response = await fetch(GrowBoxBackendUrl);
-        // const jsonData = await response.json();
-        // setGrowBoxStats(jsonData);
-        await sleep(5000)
-        setGrowBoxStats(
-          {temperature: 25, humidity: 70, acidity: 80}
-        )
+        const response = await fetch(GrowBoxBackendUrl);
+        const jsonData = await response.json();
+        setGrowBoxStats(jsonData);
         setUpdatedTime(Date.now())
       } catch (error) {
         console.error('Error:', error);
