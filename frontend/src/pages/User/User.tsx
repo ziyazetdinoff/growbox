@@ -6,7 +6,30 @@ import humidity from "../../icons/humidity_icon.png";
 import refresh from "../../icons/refresh_icon.png";
 import lamp from "../../icons/lamp_icon.png";
 
+import { Slider } from "@mui/material";
+import { useState } from "react";
+import { format } from "date-fns"
+
 export const User = () => {
+  const [red, setRed] = useState(0);
+  const [green, setGreen] = useState(0);
+  const [blue, setBlue] = useState(0);
+
+  
+  const formattedTime = format(Date.now(), 'yyyy-MM-dd HH:mm:ss');
+
+  const handleRedChange = (event: Event, newValue: number | number[]) => {
+     setRed(newValue as number);
+  };
+
+  const handleGreenChange = (event: Event, newValue: number | number[]) => {
+    setGreen(newValue as number);
+  };
+
+  const handleBlueChange = (event: Event, newValue: number | number[]) => {
+    setBlue(newValue as number);
+  };
+
   return (
     <Box
       sx={{
@@ -43,14 +66,16 @@ export const User = () => {
             <Box sx={{ display: "flex", flexDirection: "column", gap: "20px" }}>
               <Typography>Температура</Typography>
               <Typography variant="h6" sx={{ textAlign: "end" }}>
-                + 25°C
+                25℃
               </Typography>
             </Box>
           </Box>
           <Divider color="white" />
           <Box sx={{ display: "flex", flexDirection: "row", gap: "20px" }}>
             <img src={refresh} height="20px" alt="" />
-            <Typography>Обновлено сейчас</Typography>
+            <Typography>
+              Обновлено {formattedTime}
+            </Typography>
           </Box>
         </Box>
         <Box
@@ -68,14 +93,14 @@ export const User = () => {
             <Box sx={{ display: "flex", flexDirection: "column", gap: "20px" }}>
               <Typography>Влажность</Typography>
               <Typography variant="h6" sx={{ textAlign: "end" }}>
-                80%
+                77%
               </Typography>
             </Box>
           </Box>
           <Divider color="white" />
           <Box sx={{ display: "flex", flexDirection: "row", gap: "20px" }}>
             <img src={refresh} height="20px" alt="" />
-            <Typography>Обновлено 1 час назад</Typography>
+            <Typography>Обновлено {formattedTime}</Typography>
           </Box>
         </Box>
         <Box
@@ -93,14 +118,14 @@ export const User = () => {
             <Box sx={{ display: "flex", flexDirection: "column", gap: "20px" }}>
               <Typography>Кислотность</Typography>
               <Typography variant="h6" sx={{ textAlign: "end" }}>
-                30%
+                90%
               </Typography>
             </Box>
           </Box>
           <Divider color="white" />
           <Box sx={{ display: "flex", flexDirection: "row", gap: "20px" }}>
             <img src={refresh} height="20px" alt="" />
-            <Typography>Обновлено сейчас</Typography>
+            <Typography>Обновлено {formattedTime}</Typography>
           </Box>
         </Box>
       </Box>
@@ -126,16 +151,37 @@ export const User = () => {
           }}
         >
           <Box sx={{display: 'flex', flexDirection: 'row'}}>
-          <InputLabel>R</InputLabel>
-          <TextField variant="standard" disabled sx={{width: '150px'}}></TextField>
+          <InputLabel>Red</InputLabel>
+          <Slider
+            value={red}
+            onChange={handleRedChange}
+            aria-label={"Red"}
+            min={0}
+            max={60}
+            sx={{width: '150px'}}
+          />
           </Box>
           <Box sx={{display: 'flex', flexDirection: 'row'}}>
-          <InputLabel>G</InputLabel>
-          <TextField variant="standard" disabled sx={{width: '150px'}}></TextField>
+          <InputLabel>Green</InputLabel>
+          <Slider
+            value={green}
+            aria-label={"Green"}
+            onChange={handleGreenChange}
+            min={0}
+            max={100}
+            sx={{width: '150px'}}
+          />
           </Box>
           <Box sx={{display: 'flex', flexDirection: 'row'}}>
-          <InputLabel>B</InputLabel>
-          <TextField variant="standard" disabled sx={{width: '150px'}}></TextField>
+          <InputLabel>Blue</InputLabel>
+          <Slider
+            value={blue}
+            aria-label={"Blue"}
+            onChange={handleBlueChange}
+            min={0}
+            max={100}
+            sx={{width: '150px'}}
+          />
           </Box>
         </Box>
       </Box>
